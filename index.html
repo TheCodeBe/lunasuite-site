@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luna Suite — Local-first PDF, Image, Bookmark &amp; Graph Tools for Chrome</title>
+    <meta
+      name="description"
+      content="A Chrome extension bundle that replaces Adobe Acrobat, SmallPDF, iLovePDF, and cloud bookmark tools. Nothing uploads. Pay once, $39 forever."
+    />
+    <meta property="og:title" content="Luna Suite — local-first browser tools" />
+    <meta
+      property="og:description"
+      content="Merge PDFs. Convert images. Clip web pages. All on your device. $39 once."
+    />
+    <meta name="theme-color" content="#0b0d17" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+            colors: {
+              luna: {
+                bg: '#0b0d17',
+                card: '#141826',
+                border: '#222639',
+                text: '#e8eaf0',
+                muted: '#8b90a6',
+                accent: '#a78bfa',
+                accent2: '#f0abfc',
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background: #0b0d17;
+        color: #e8eaf0;
+      }
+      .glow {
+        background: radial-gradient(
+          1200px 600px at 50% -200px,
+          rgba(167, 139, 250, 0.18),
+          transparent 60%
+        );
+      }
+      .gradient-text {
+        background: linear-gradient(90deg, #a78bfa, #f0abfc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+    </style>
+  </head>
+  <body class="font-sans">
+    <!-- ============================================================ HEADER -->
+    <header class="relative">
+      <div class="glow absolute inset-0 pointer-events-none"></div>
+
+      <nav class="relative max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-2">
+          <span class="text-2xl">🌙</span>
+          <span class="text-xl font-bold">Luna Suite</span>
+        </a>
+        <div class="flex items-center gap-6 text-sm text-luna-muted">
+          <a href="#tools" class="hover:text-luna-text">Tools</a>
+          <a href="#compare" class="hover:text-luna-text">Compare</a>
+          <a href="#faq" class="hover:text-luna-text">FAQ</a>
+          <a
+            href="#buy"
+            class="rounded-lg bg-luna-accent hover:bg-luna-accent2 text-black font-semibold px-4 py-2 transition"
+            >Get it — $39</a
+          >
+        </div>
+      </nav>
+
+      <div class="relative max-w-4xl mx-auto px-6 pt-20 pb-24 text-center">
+        <div
+          class="inline-block rounded-full border border-luna-border bg-luna-card/40 px-3 py-1 text-xs text-luna-muted mb-6"
+        >
+          🔒 Local-first · nothing uploads · pay once
+        </div>
+        <h1
+          class="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight mb-6"
+        >
+          Your browser is already<br />
+          <span class="gradient-text">the only tool you need.</span>
+        </h1>
+        <p
+          class="text-lg sm:text-xl text-luna-muted max-w-2xl mx-auto leading-relaxed mb-10"
+        >
+          Luna Suite is four Chrome extensions that replace Adobe Acrobat,
+          SmallPDF, iLovePDF, HEIC converters, and bookmark SaaS — all running
+          100% on your device. No uploads. No subscriptions. No accounts.
+        </p>
+        <div class="flex items-center justify-center gap-4 flex-wrap">
+          <a
+            href="#buy"
+            class="rounded-xl bg-gradient-to-r from-luna-accent to-luna-accent2 text-black font-bold text-lg px-8 py-4 hover:opacity-90 transition"
+            >Get Luna Suite — $39 once →</a
+          >
+          <a
+            href="#tools"
+            class="text-luna-text hover:text-luna-accent text-sm underline"
+            >Or take a tour first</a
+          >
+        </div>
+        <div class="mt-6 text-xs text-luna-muted">
+          4 interest-free payments of $9.75 via PayPal. 30-day refund. No
+          account required.
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================ PROBLEM -->
+    <section class="border-y border-luna-border bg-red-950/10 py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-center mb-3">
+          You're paying <span class="text-red-300">$450+/year</span> for tools
+          that upload your files.
+        </h2>
+        <p class="text-center text-luna-muted mb-10 max-w-2xl mx-auto">
+          Every "free" web tool pushes you to a paid tier once you hit their 5
+          MB or 3-task daily cap. And your documents end up on someone else's
+          server either way.
+        </p>
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-center"
+        >
+          <div class="rounded-lg bg-luna-card/60 border border-red-900/30 p-4">
+            <div class="text-red-300 font-bold">iLovePDF Premium</div>
+            <div class="text-luna-muted mt-1">$108/year</div>
+          </div>
+          <div class="rounded-lg bg-luna-card/60 border border-red-900/30 p-4">
+            <div class="text-red-300 font-bold">SmallPDF Pro</div>
+            <div class="text-luna-muted mt-1">$108/year</div>
+          </div>
+          <div class="rounded-lg bg-luna-card/60 border border-red-900/30 p-4">
+            <div class="text-red-300 font-bold">Adobe Acrobat</div>
+            <div class="text-luna-muted mt-1">$180/year</div>
+          </div>
+          <div class="rounded-lg bg-luna-card/60 border border-red-900/30 p-4">
+            <div class="text-red-300 font-bold">AI bookmarking SaaS</div>
+            <div class="text-luna-muted mt-1">$60+/year</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ SOLUTION -->
+    <section class="py-16">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+          <span class="gradient-text">$39 once.</span> Forever yours.
+        </h2>
+        <p class="text-lg text-luna-muted max-w-2xl mx-auto leading-relaxed">
+          No upload. No daily cap. No watermark. No subscription. Each tool
+          runs entirely inside your browser — we don't even have servers.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================ TOOLS -->
+    <section id="tools" class="py-12">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold mb-3">What's in the box</h2>
+          <p class="text-luna-muted">
+            4 Chrome extensions + 1 shared AI engine. Install once, use forever.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+          <!-- Luna PDF -->
+          <div
+            class="rounded-2xl border border-luna-border bg-luna-card/60 p-6 hover:border-luna-accent/50 transition"
+          >
+            <div class="text-3xl mb-3">📄</div>
+            <h3 class="text-xl font-bold mb-2">Luna PDF</h3>
+            <p class="text-luna-muted text-sm leading-relaxed mb-4">
+              View, merge, split, rotate PDFs. Convert to/from images. AI
+              summary for long documents. OCR for scanned pages. All local.
+            </p>
+            <div class="text-xs text-luna-muted flex flex-wrap gap-2">
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Replaces Adobe Acrobat</span
+              >
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Replaces SmallPDF</span
+              >
+            </div>
+          </div>
+
+          <!-- Luna Image Toolbox -->
+          <div
+            class="rounded-2xl border border-luna-border bg-luna-card/60 p-6 hover:border-luna-accent/50 transition"
+          >
+            <div class="text-3xl mb-3">🖼️</div>
+            <h3 class="text-xl font-bold mb-2">Luna Image Toolbox</h3>
+            <p class="text-luna-muted text-sm leading-relaxed mb-4">
+              Convert HEIC/PNG/JPG/WebP/AVIF. Compress. Strip EXIF. Rotate.
+              Batch rename. Find duplicates with perceptual-hash auto-pick.
+            </p>
+            <div class="text-xs text-luna-muted flex flex-wrap gap-2">
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Replaces CloudConvert</span
+              >
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Replaces TinyPNG</span
+              >
+            </div>
+          </div>
+
+          <!-- Luna Library -->
+          <div
+            class="rounded-2xl border border-luna-border bg-luna-card/60 p-6 hover:border-luna-accent/50 transition"
+          >
+            <div class="text-3xl mb-3">📚</div>
+            <h3 class="text-xl font-bold mb-2">Luna Library</h3>
+            <p class="text-luna-muted text-sm leading-relaxed mb-4">
+              Clip any web page with cover + summary + AI tags. Use it
+              standalone, or sync to <strong class="text-luna-text">Notion</strong>,
+              <strong class="text-luna-text">Google Sheets</strong>,
+              <strong class="text-luna-text">Obsidian</strong>,
+              Zotero, or Evernote — Luna never sees a byte.
+            </p>
+            <div class="text-xs text-luna-muted flex flex-wrap gap-2">
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Replaces Pocket</span
+              >
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Replaces Raindrop</span
+              >
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >No Notion? No problem.</span
+              >
+            </div>
+          </div>
+
+          <!-- Luna Graph -->
+          <div
+            class="rounded-2xl border border-luna-border bg-luna-card/60 p-6 hover:border-luna-accent/50 transition"
+          >
+            <div class="text-3xl mb-3">🕸️</div>
+            <h3 class="text-xl font-bold mb-2">Luna Graph <span class="text-xs bg-green-500/20 text-green-300 rounded px-2 py-0.5 ml-1">FREE</span></h3>
+            <p class="text-luna-muted text-sm leading-relaxed mb-4">
+              Obsidian-style graph view of your Notion workspace. See
+              clusters, backlinks, orphan pages. Free forever — our gift for
+              trying Luna.
+            </p>
+            <div class="text-xs text-luna-muted flex flex-wrap gap-2">
+              <span class="rounded-full bg-luna-bg/50 px-2 py-0.5"
+                >Built into Notion? Not yet.</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center text-sm text-luna-muted">
+          Plus <strong class="text-luna-text">Luna AI</strong> — the shared on-device LLM
+          engine every Luna tool uses. One 1.2 GB download, every tool
+          benefits, fully private.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ COMPARE -->
+    <section id="compare" class="py-16 border-t border-luna-border">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl sm:text-4xl font-bold mb-3">
+            Why Luna beats the cloud tools
+          </h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-luna-border">
+                <th class="text-left p-3"></th>
+                <th class="p-3 text-luna-accent font-bold">Luna Suite</th>
+                <th class="p-3 text-luna-muted">SmallPDF / iLovePDF</th>
+                <th class="p-3 text-luna-muted">Adobe Acrobat</th>
+                <th class="p-3 text-luna-muted">Cloud bookmark apps</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-luna-border">
+              <tr>
+                <td class="p-3 text-luna-muted">Price</td>
+                <td class="p-3 text-luna-accent font-semibold">$39 once</td>
+                <td class="p-3">$9/mo</td>
+                <td class="p-3">$13–20/mo</td>
+                <td class="p-3">$5–9/mo</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-luna-muted">Files leave your device</td>
+                <td class="p-3 text-green-300">No, ever</td>
+                <td class="p-3 text-red-300">Yes</td>
+                <td class="p-3 text-red-300">Yes (cloud tier)</td>
+                <td class="p-3 text-red-300">Yes</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-luna-muted">File size limit</td>
+                <td class="p-3 text-green-300">Your RAM</td>
+                <td class="p-3">25–50 MB</td>
+                <td class="p-3">Varies</td>
+                <td class="p-3">Varies</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-luna-muted">Daily task cap</td>
+                <td class="p-3 text-green-300">Unlimited</td>
+                <td class="p-3">2–3 per day (free)</td>
+                <td class="p-3">Unlimited (paid)</td>
+                <td class="p-3">Varies</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-luna-muted">AI summary / tagging</td>
+                <td class="p-3 text-green-300">Local LLM, no cost</td>
+                <td class="p-3">Extra subscription</td>
+                <td class="p-3">Extra subscription</td>
+                <td class="p-3">OpenAI key required</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-luna-muted">Account required</td>
+                <td class="p-3 text-green-300">No</td>
+                <td class="p-3 text-red-300">Yes</td>
+                <td class="p-3 text-red-300">Yes</td>
+                <td class="p-3 text-red-300">Yes</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-luna-muted">Works offline</td>
+                <td class="p-3 text-green-300">Yes</td>
+                <td class="p-3 text-red-300">No</td>
+                <td class="p-3">Partial</td>
+                <td class="p-3 text-red-300">No</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ BUY -->
+    <section id="buy" class="py-16 border-t border-luna-border">
+      <div class="max-w-3xl mx-auto px-6">
+        <div
+          class="rounded-3xl border border-luna-accent/40 bg-gradient-to-br from-luna-card/80 to-luna-card/40 p-10 text-center"
+        >
+          <div
+            class="inline-block rounded-full bg-luna-accent/20 text-luna-accent text-xs px-3 py-1 mb-4 font-semibold"
+          >
+            LAUNCH PRICE
+          </div>
+          <div class="text-6xl font-extrabold mb-2">
+            $<span class="gradient-text">39</span>
+          </div>
+          <div class="text-luna-muted text-lg mb-6">
+            one-time payment · all tools included · forever
+          </div>
+          <ul class="text-left text-sm space-y-2 mb-8 max-w-md mx-auto">
+            <li class="flex items-start gap-2">
+              <span class="text-green-400">✓</span>
+              <span>All 4 extensions unlocked (PDF, Image Toolbox, Library, Graph)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400">✓</span>
+              <span>Luna AI (shared on-device LLM) included free</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400">✓</span>
+              <span>Every future Luna extension included</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400">✓</span>
+              <span>Lifetime updates</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400">✓</span>
+              <span>Use on 3 devices (family / work / home)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400">✓</span>
+              <span>30-day no-questions refund</span>
+            </li>
+          </ul>
+          <a
+            href="https://LUNASUITE_LEMON_SQUEEZY_URL"
+            class="block rounded-xl bg-gradient-to-r from-luna-accent to-luna-accent2 text-black font-bold text-lg px-8 py-4 hover:opacity-90 transition"
+            >Buy Luna Suite — $39</a
+          >
+          <div class="text-xs text-luna-muted mt-3">
+            Or 4 × $9.75 interest-free via PayPal
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ FAQ -->
+    <section id="faq" class="py-16 border-t border-luna-border">
+      <div class="max-w-3xl mx-auto px-6">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10">
+          Questions
+        </h2>
+        <div class="space-y-3">
+          <details
+            class="rounded-xl border border-luna-border bg-luna-card/40 p-5 group"
+          >
+            <summary
+              class="cursor-pointer font-semibold flex items-center justify-between"
+            >
+              Is this really 100% local?
+              <span class="text-luna-muted group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-luna-muted mt-3 text-sm leading-relaxed">
+              Yes. All file processing happens in your browser tab. When you
+              connect Notion or Obsidian, data goes from your browser directly
+              to that service — Luna has no intermediary server. We have no
+              servers at all. Check the source on GitHub if you want proof.
+            </p>
+          </details>
+          <details
+            class="rounded-xl border border-luna-border bg-luna-card/40 p-5 group"
+          >
+            <summary
+              class="cursor-pointer font-semibold flex items-center justify-between"
+            >
+              Do I need WebGPU?
+              <span class="text-luna-muted group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-luna-muted mt-3 text-sm leading-relaxed">
+              Only for the AI features (summary, auto-tagging). Chrome 113+ on
+              most modern computers has WebGPU by default. If you don't have
+              it, non-AI features work normally and AI features fall back to a
+              keyword heuristic.
+            </p>
+          </details>
+          <details
+            class="rounded-xl border border-luna-border bg-luna-card/40 p-5 group"
+          >
+            <summary
+              class="cursor-pointer font-semibold flex items-center justify-between"
+            >
+              Why $39 once instead of a subscription?
+              <span class="text-luna-muted group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-luna-muted mt-3 text-sm leading-relaxed">
+              Because these tools don't have any ongoing server cost for us —
+              they run on your device. Subscriptions would be for something we
+              aren't doing. We'd rather you pay us once and never see us
+              again until you want an upgrade.
+            </p>
+          </details>
+          <details
+            class="rounded-xl border border-luna-border bg-luna-card/40 p-5 group"
+          >
+            <summary
+              class="cursor-pointer font-semibold flex items-center justify-between"
+            >
+              Can I use it for client work?
+              <span class="text-luna-muted group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-luna-muted mt-3 text-sm leading-relaxed">
+              Yes. One license covers commercial use on up to 3 devices. For
+              team use (multiple people), contact us for team pricing.
+            </p>
+          </details>
+          <details
+            class="rounded-xl border border-luna-border bg-luna-card/40 p-5 group"
+          >
+            <summary
+              class="cursor-pointer font-semibold flex items-center justify-between"
+            >
+              Does it work on Firefox / Safari?
+              <span class="text-luna-muted group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-luna-muted mt-3 text-sm leading-relaxed">
+              Chromium-based browsers for now (Chrome, Edge, Brave, Arc, Opera).
+              Firefox support is planned; Safari isn't on the roadmap because
+              WebGPU support lags there.
+            </p>
+          </details>
+          <details
+            class="rounded-xl border border-luna-border bg-luna-card/40 p-5 group"
+          >
+            <summary
+              class="cursor-pointer font-semibold flex items-center justify-between"
+            >
+              What if I don't like it?
+              <span class="text-luna-muted group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-luna-muted mt-3 text-sm leading-relaxed">
+              30-day full refund, no questions asked. Email support@lunasuite.app
+              and we'll send the refund the same day.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ FOOTER -->
+    <footer class="py-10 border-t border-luna-border">
+      <div
+        class="max-w-5xl mx-auto px-6 flex items-center justify-between flex-wrap gap-4 text-sm text-luna-muted"
+      >
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🌙</span>
+          <span>© 2026 Luna Suite — built by TheCodeBe</span>
+        </div>
+        <div class="flex gap-5">
+          <a href="/privacy" class="hover:text-luna-text">Privacy</a>
+          <a href="/docs" class="hover:text-luna-text">Docs</a>
+          <a
+            href="https://github.com/TheCodeBe"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-luna-text"
+            >GitHub</a
+          >
+          <a href="mailto:support@lunasuite.app" class="hover:text-luna-text"
+            >support@lunasuite.app</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
