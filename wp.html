@@ -175,9 +175,20 @@
 
     <!-- Pricing -->
     <section id="pricing" class="max-w-6xl mx-auto px-6 py-20">
-      <div class="text-center mb-12">
+      <div class="text-center mb-8">
         <h2 class="text-4xl font-extrabold mb-4">One payment. Forever yours.</h2>
         <p class="text-luna-mute text-lg">No subscriptions. No API fees. 30-day money-back.</p>
+      </div>
+
+      <!-- Founding Member countdown banner -->
+      <div class="card p-6 mb-10 border-luna-pink">
+        <div class="text-center mb-4">
+          <div class="text-luna-pink font-extrabold text-lg tracking-wide">🌙 FOUNDING MEMBER PRICING — 50% OFF</div>
+          <div class="text-luna-mute text-sm mt-1">Only the first 100 buyers per tier get founding pricing. After that, regular prices.</div>
+        </div>
+        <div id="founding-bars" class="grid md:grid-cols-4 gap-3 text-xs">
+          <!-- Filled in by JS -->
+        </div>
       </div>
 
       <div class="grid md:grid-cols-4 gap-6">
@@ -562,16 +573,44 @@
       const WORKER_URL = 'https://luna-commerce.thecodebe.workers.dev';
       const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
-      // Fetch founding slot counts and show them on each card
+      // Fetch founding slot counts and render the countdown bars
+      const TIER_DISPLAY = {
+        starter: { label: 'Starter', regular: 79, founding: 39 },
+        pro: { label: 'Pro', regular: 199, founding: 99 },
+        lifetime: { label: 'Lifetime', regular: 799, founding: 399 },
+        agency: { label: 'Agency', regular: 1499, founding: 749 },
+      };
       fetch(WORKER_URL + '/founding-slots')
         .then(r => r.json())
         .then(slots => {
+          // Top countdown banner — 4 tiers side by side with progress bars
+          const bars = el('founding-bars');
+          if (bars) {
+            bars.innerHTML = Object.entries(slots).map(([tier, remaining]) => {
+              const disp = TIER_DISPLAY[tier];
+              if (!disp) return '';
+              const claimed = 100 - remaining;
+              const pct = Math.max(3, claimed);
+              const color = remaining < 20 ? '#f87171' : remaining < 50 ? '#fbbf24' : '#a78bfa';
+              return `<div class="p-3 bg-luna-bg rounded-lg">
+                <div class="flex justify-between mb-1"><span class="font-bold text-white">${disp.label}</span><span class="text-luna-pink font-bold">$${disp.founding}</span></div>
+                <div class="text-luna-mute text-xs line-through">$${disp.regular}</div>
+                <div class="mt-2" style="background:#1f2340;height:6px;border-radius:3px;overflow:hidden">
+                  <div style="background:${color};width:${pct}%;height:100%"></div>
+                </div>
+                <div class="mt-1 text-xs ${remaining < 20 ? 'text-luna-red font-bold' : 'text-luna-mute'}">${remaining} of 100 founding slots left</div>
+              </div>`;
+            }).join('');
+          }
+
+          // Per-card small counter
           for (const [tier, remaining] of Object.entries(slots)) {
             const card = document.querySelector('[data-tier="' + tier + '"]')?.closest('.card');
             if (card && remaining > 0) {
               const banner = document.createElement('div');
-              banner.className = 'text-xs text-luna-pink font-bold mb-2';
-              banner.textContent = '🌙 ' + remaining + '/100 Founding slots at 50% off';
+              const urgent = remaining < 20;
+              banner.className = 'text-xs font-bold mb-2 ' + (urgent ? 'text-luna-red' : 'text-luna-pink');
+              banner.textContent = '🌙 ' + remaining + '/100 Founding slots at 50% off' + (urgent ? ' — almost gone!' : '');
               card.insertBefore(banner, card.firstChild);
             }
           }
