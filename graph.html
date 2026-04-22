@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luna Notion Graph — Turn Your Notion Into a Brain. $1 Lifetime.</title>
+    <meta name="description" content="Chrome extension that visualizes your Notion pages and databases as a force-directed graph. AI semantic search. 100% local — runs in your browser, no data leaves your device. $1 lifetime purchase." />
+    <meta property="og:title" content="Luna Notion Graph — $1 Lifetime" />
+    <meta property="og:description" content="Turn your Notion into a visual graph with AI semantic search. 100% local AI in your browser. $1 one-time." />
+    <meta property="og:image" content="https://lunasuite.app/screenshots/luna-graph.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://lunasuite.app/screenshots/luna-graph.png" />
+    <meta name="theme-color" content="#0b0d17" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      tailwind.config = { darkMode: 'class', theme: { extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: { luna: { bg: '#0b0d17', panel: '#11142a', accent: '#a78bfa', pink: '#f0abfc', green: '#4ade80', amber: '#fbbf24', red: '#f87171', mute: '#8a93b8' } },
+      }}};
+    </script>
+    <style>
+      body { background: #0b0d17; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; }
+      .card { background: #11142a; border: 1px solid #1f2340; border-radius: 16px; }
+      .gradient { background: linear-gradient(135deg, #a78bfa 0%, #f0abfc 100%); }
+      .gradient-text { background: linear-gradient(135deg, #a78bfa 0%, #f0abfc 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    </style>
+  </head>
+  <body>
+    <div class="gradient text-white text-center py-2 text-sm font-bold">
+      ✓ $1 LIFETIME · ✓ LOCAL AI · ✓ NO DATA LEAVES YOUR BROWSER · ✓ NO SUBSCRIPTION
+    </div>
+
+    <nav class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3 hover:opacity-80">
+        <div class="w-10 h-10 gradient rounded-lg flex items-center justify-center text-white font-bold">L</div>
+        <div>
+          <div class="font-bold text-xl">Luna Notion Graph</div>
+          <div class="text-xs text-luna-mute">Part of Luna Suite</div>
+        </div>
+      </a>
+      <a href="#buy" class="gradient text-white font-semibold px-6 py-2 rounded-lg hover:opacity-90">Get it — $1</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="max-w-5xl mx-auto px-6 py-16 text-center">
+      <div class="inline-block px-4 py-1.5 rounded-full bg-luna-panel border border-luna-accent/40 text-sm text-luna-accent mb-6">
+        🌙 Chrome extension · 100% local AI
+      </div>
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+        Turn your Notion<br>
+        <span class="gradient-text">into a brain.</span>
+      </h1>
+      <p class="text-xl text-luna-mute max-w-3xl mx-auto mb-10">
+        Luna Notion Graph visualizes every page, every database, every link in your Notion workspace as a force-directed graph. AI semantic search zooms the graph to what matters.
+        <br><br>
+        <strong class="text-white">All AI runs in your browser.</strong> Your Notion content never leaves your device. No API keys. No subscription. One dollar — lifetime.
+      </p>
+      <a href="#buy" class="inline-block gradient text-white font-bold px-10 py-5 rounded-xl text-xl hover:opacity-90">Get it now — $1 lifetime</a>
+      <div class="text-sm text-luna-mute mt-4">30-day money back · Pay once, own forever</div>
+    </section>
+
+    <!-- Hero image -->
+    <section class="max-w-5xl mx-auto px-6 pb-12">
+      <img src="screenshots/luna-graph.png" alt="Luna Notion Graph visualization" class="rounded-2xl w-full border border-luna-panel" />
+    </section>
+
+    <!-- Features -->
+    <section class="max-w-6xl mx-auto px-6 py-16">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card p-6">
+          <div class="text-3xl mb-3">🧠</div>
+          <div class="font-bold text-luna-pink mb-2">Full Workspace Graph</div>
+          <div class="text-sm text-luna-mute">Every page and database rendered as a node. Links between them = edges. See your entire Notion brain at a glance.</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-3xl mb-3">🔍</div>
+          <div class="font-bold text-luna-pink mb-2">AI Semantic Search</div>
+          <div class="text-sm text-luna-mute">Type any query. Local embeddings instantly zoom the graph to relevant nodes. No keyword matching — actual meaning.</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-3xl mb-3">🔒</div>
+          <div class="font-bold text-luna-pink mb-2">100% Local AI</div>
+          <div class="text-sm text-luna-mute">AI runs in your browser via WebGPU. Your Notion content never leaves your device. Zero cloud calls, zero API keys.</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-3xl mb-3">🎨</div>
+          <div class="font-bold text-luna-pink mb-2">Multiple Layouts</div>
+          <div class="text-sm text-luna-mute">Force-directed, concentric, circle, databases-first. Switch instantly to see your workspace from different angles.</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-3xl mb-3">💸</div>
+          <div class="font-bold text-luna-pink mb-2">$1 Lifetime</div>
+          <div class="text-sm text-luna-mute">One dollar, one time. Not a subscription. Own it forever. Works offline after install.</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-3xl mb-3">⚡</div>
+          <div class="font-bold text-luna-pink mb-2">Instant Setup</div>
+          <div class="text-sm text-luna-mute">Install Chrome extension, paste your Notion workspace URL, graph renders in seconds. No config, no API keys.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="max-w-6xl mx-auto px-6 py-12">
+      <h2 class="text-3xl font-extrabold text-center mb-10">Views &amp; layouts</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card p-3">
+          <img src="screenshots/luna-graph-search.png" alt="Luna Graph AI semantic search" class="rounded-lg w-full" />
+          <div class="text-center text-sm text-luna-mute py-2">AI semantic search — type a query, graph filters to relevant nodes</div>
+        </div>
+        <div class="card p-3">
+          <img src="screenshots/luna-graph-concentric.png" alt="Concentric layout" class="rounded-lg w-full" />
+          <div class="text-center text-sm text-luna-mute py-2">Concentric layout — see your workspace organized by depth</div>
+        </div>
+        <div class="card p-3">
+          <img src="screenshots/luna-graph-connect.png" alt="Connection view" class="rounded-lg w-full" />
+          <div class="text-center text-sm text-luna-mute py-2">Connection view — highlight relationships between pages</div>
+        </div>
+        <div class="card p-3">
+          <img src="screenshots/luna-graph-detail.png" alt="Detail view" class="rounded-lg w-full" />
+          <div class="text-center text-sm text-luna-mute py-2">Detail view — zoom into specific pages and their connections</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buy section -->
+    <section id="buy" class="max-w-3xl mx-auto px-6 py-16 text-center">
+      <div class="card p-10 border-luna-pink">
+        <h2 class="text-4xl font-extrabold mb-3">Luna Notion Graph</h2>
+        <div class="text-6xl font-extrabold gradient-text mb-2">$1</div>
+        <div class="text-lg text-luna-mute mb-8">Lifetime. Not a subscription. Pay once, own forever.</div>
+        <a href="/extensions.html#pricing" class="inline-block gradient text-white font-bold px-12 py-5 rounded-xl text-xl hover:opacity-90">Buy Luna Notion Graph — $1</a>
+        <div class="text-sm text-luna-mute mt-6">
+          ✓ 30-day money back<br>
+          ✓ Works offline after install<br>
+          ✓ Chrome 113+ required (WebGPU)<br>
+          ✓ Your content never leaves your browser
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="max-w-3xl mx-auto px-6 py-16">
+      <h2 class="text-3xl font-extrabold text-center mb-10">How it works</h2>
+      <ol class="space-y-4 text-luna-mute">
+        <li class="card p-5"><strong class="text-white">1. Buy.</strong> Stripe checkout right here — $1, one-time.</li>
+        <li class="card p-5"><strong class="text-white">2. Download.</strong> Email arrives instantly with the Chrome extension zip.</li>
+        <li class="card p-5"><strong class="text-white">3. Install.</strong> Chrome → Extensions → Developer mode ON → Load unpacked → pick unzipped folder.</li>
+        <li class="card p-5"><strong class="text-white">4. Paste your Notion URL.</strong> Extension fetches your workspace structure and renders the graph.</li>
+        <li class="card p-5"><strong class="text-white">5. Search + explore.</strong> Type a query, graph zooms. Switch layouts. Click nodes to jump to Notion pages.</li>
+      </ol>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-3xl mx-auto px-6 py-16">
+      <h2 class="text-3xl font-extrabold text-center mb-10">FAQ</h2>
+      <div class="space-y-3">
+        <details class="card p-5"><summary class="font-bold cursor-pointer">Is my Notion data sent anywhere?</summary><p class="mt-3 text-luna-mute text-sm">No. Everything runs locally in your browser. Luna Graph calls Notion's API directly from your browser using your own Notion auth, then renders the graph + embeddings in-browser. No Luna server, no OpenAI, no cloud AI.</p></details>
+        <details class="card p-5"><summary class="font-bold cursor-pointer">Do I need a Notion API key?</summary><p class="mt-3 text-luna-mute text-sm">No. The extension uses Notion's web session. Just paste your workspace URL.</p></details>
+        <details class="card p-5"><summary class="font-bold cursor-pointer">What browsers are supported?</summary><p class="mt-3 text-luna-mute text-sm">Chrome 113+, Edge 113+, or any Chromium-based browser with WebGPU enabled. Firefox/Safari support is coming.</p></details>
+        <details class="card p-5"><summary class="font-bold cursor-pointer">Can I use it on multiple computers?</summary><p class="mt-3 text-luna-mute text-sm">Yes. $1 license covers personal use across all your own devices.</p></details>
+        <details class="card p-5"><summary class="font-bold cursor-pointer">Can I get a refund?</summary><p class="mt-3 text-luna-mute text-sm">30-day money back, no questions asked. Email thecodebe@gmail.com.</p></details>
+        <details class="card p-5"><summary class="font-bold cursor-pointer">What else does Luna Suite offer?</summary><p class="mt-3 text-luna-mute text-sm">73 WordPress plugins with the same local-AI philosophy ($39 Starter, $399 Lifetime). See <a href="/" class="text-luna-accent hover:underline">lunasuite.app</a>.</p></details>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h2 class="text-4xl font-extrabold mb-6">Your Notion, visualized. $1.</h2>
+      <a href="#buy" class="inline-block gradient text-white font-bold px-10 py-5 rounded-xl text-xl hover:opacity-90">Buy Luna Notion Graph</a>
+    </section>
+
+    <footer class="max-w-6xl mx-auto px-6 py-10 border-t border-luna-panel text-center text-luna-mute text-sm">
+      <p><a href="/" class="hover:text-white">Luna Suite</a> · <a href="/extensions.html" class="hover:text-white">All Chrome extensions</a> · <a href="mailto:thecodebe@gmail.com" class="hover:text-white">Support</a> · <a href="/privacy.html" class="hover:text-white">Privacy</a> · <a href="/terms.html" class="hover:text-white">Terms</a></p>
+    </footer>
+  </body>
+</html>
