@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luna Chrome Extensions — $1 Lifetime Each · Luna Suite</title>
+    <meta name="description" content="Six local-AI Chrome extensions: Notion Graph, AI Bookmarks, Clipper, PDF tools, and more. $1 lifetime each. No API fees, no cloud." />
+    <meta property="og:title" content="Luna Chrome Extensions — $1 Lifetime" />
+    <meta property="og:description" content="6 local-AI Chrome extensions — $1 each, lifetime. Nothing uploads, no API fees." />
+    <meta name="theme-color" content="#0b0d17" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      tailwind.config = { darkMode: 'class', theme: { extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: { luna: { bg: '#0b0d17', panel: '#11142a', accent: '#a78bfa', pink: '#f0abfc', green: '#4ade80', amber: '#fbbf24', red: '#f87171', mute: '#8a93b8' } },
+      }}};
+    </script>
+    <style>
+      body { background: #0b0d17; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; }
+      .card { background: #11142a; border: 1px solid #1f2340; border-radius: 16px; }
+      .gradient { background: linear-gradient(135deg, #a78bfa 0%, #f0abfc 100%); }
+      .gradient-text { background: linear-gradient(135deg, #a78bfa 0%, #f0abfc 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3 hover:opacity-80">
+        <div class="w-10 h-10 gradient rounded-lg flex items-center justify-center text-white font-bold">L</div>
+        <div class="font-bold text-xl">Luna Suite</div>
+      </a>
+      <div class="flex gap-4 items-center">
+        <a href="/" class="text-luna-mute hover:text-white text-sm">WordPress Plugins</a>
+        <a href="#pricing" class="gradient text-white font-semibold px-6 py-2 rounded-lg hover:opacity-90">Get All 6 — $5</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+      <div class="inline-block px-4 py-1.5 rounded-full bg-luna-panel border border-luna-accent/40 text-sm text-luna-accent mb-6">
+        6 Chrome extensions · $1 lifetime each · all local
+      </div>
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+        <span class="gradient-text">6 AI Chrome extensions.</span><br>
+        $1 each. Forever.
+      </h1>
+      <p class="text-xl text-luna-mute max-w-2xl mx-auto mb-10">
+        Every extension runs AI locally in your browser — no accounts, no API keys, no subscription.
+        Own each one forever for the price of a pack of gum.
+      </p>
+      <a href="#pricing" class="inline-block gradient text-white font-bold px-8 py-4 rounded-xl text-lg hover:opacity-90">Get All 6 — $5</a>
+    </section>
+
+    <!-- Extensions Grid -->
+    <section class="max-w-6xl mx-auto px-6 py-12">
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- 1. Luna Notion Graph -->
+        <div class="card p-6">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-bold text-luna-pink text-xl">🌙 Luna Notion Graph</div>
+            <div class="text-luna-pink font-bold text-2xl">$1</div>
+          </div>
+          <p class="text-sm text-luna-mute mb-4">Visualize how your Notion pages, databases, and links connect. Force-directed graph with search, clustering, and filters. The Obsidian graph — but for Notion.</p>
+          <img src="screenshots/luna-graph.png" alt="Luna Notion Graph" class="rounded mb-3 w-full" loading="lazy" />
+          <button data-addon="luna-graph" class="luna-single-buy gradient text-white font-semibold py-2 px-4 rounded-lg w-full">Buy Luna Notion Graph — $1</button>
+        </div>
+
+        <!-- 2. Luna Local Library -->
+        <div class="card p-6">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-bold text-luna-pink text-xl">📚 Luna Local Library</div>
+            <div class="text-luna-pink font-bold text-2xl">$1</div>
+          </div>
+          <p class="text-sm text-luna-mute mb-4">AI-organized bookmark manager. Clip any web page, auto-tagged and summarized by local AI. Grid, list, and compact views. Never lose a link again.</p>
+          <img src="screenshots/luna-clipper-library.png" alt="Luna Local Library" class="rounded mb-3 w-full" loading="lazy" />
+          <button data-addon="luna-bookmarks" class="luna-single-buy gradient text-white font-semibold py-2 px-4 rounded-lg w-full">Buy Luna Local Library — $1</button>
+        </div>
+
+        <!-- 3. Luna Notion/Sheets Clipper -->
+        <div class="card p-6">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-bold text-luna-pink text-xl">✂️ Luna Notion/Sheets Clipper</div>
+            <div class="text-luna-pink font-bold text-2xl">$1</div>
+          </div>
+          <p class="text-sm text-luna-mute mb-4">One-click clip from any web page directly into Notion pages or Google Sheets. Includes AI summary + tags. Your research pipeline, automated.</p>
+          <img src="screenshots/luna-clipper-popup.png" alt="Luna Clipper" class="rounded mb-3 w-full" loading="lazy" />
+          <button data-addon="luna-clipper" class="luna-single-buy gradient text-white font-semibold py-2 px-4 rounded-lg w-full">Buy Luna Clipper — $1</button>
+        </div>
+
+        <!-- 4. Luna Local PDF -->
+        <div class="card p-6">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-bold text-luna-pink text-xl">📄 Luna Local PDF</div>
+            <div class="text-luna-pink font-bold text-2xl">$1</div>
+          </div>
+          <p class="text-sm text-luna-mute mb-4">Merge, split, rotate, compress, and OCR PDFs — 100% in your browser. Full Adobe Acrobat replacement, offline. Files never upload anywhere.</p>
+          <img src="screenshots/luna-pdf.png" alt="Luna Local PDF" class="rounded mb-3 w-full" loading="lazy" />
+          <button data-addon="luna-pdf" class="luna-single-buy gradient text-white font-semibold py-2 px-4 rounded-lg w-full">Buy Luna PDF — $1</button>
+        </div>
+
+        <!-- 5. Luna Local Convert -->
+        <div class="card p-6">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-bold text-luna-pink text-xl">🔄 Luna Local Convert</div>
+            <div class="text-luna-pink font-bold text-2xl">$1</div>
+          </div>
+          <p class="text-sm text-luna-mute mb-4">Convert image formats (PNG ↔ JPEG ↔ WebP ↔ AVIF) + detect and dedup duplicate images. All processing offline in your browser.</p>
+          <img src="screenshots/luna-convert.png" alt="Luna Convert" class="rounded mb-3 w-full" loading="lazy" />
+          <button data-addon="luna-convert" class="luna-single-buy gradient text-white font-semibold py-2 px-4 rounded-lg w-full">Buy Luna Convert — $1</button>
+        </div>
+
+        <!-- 6. Luna Graph Search -->
+        <div class="card p-6 border-luna-accent">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-bold text-luna-pink text-xl">🔍 Luna Graph AI Search <span class="text-luna-accent text-xs font-normal align-middle">(included with Luna Notion Graph)</span></div>
+            <div class="text-luna-pink font-bold text-2xl">+</div>
+          </div>
+          <p class="text-sm text-luna-mute mb-4">Bonus feature: type any query and the graph zooms + filters to relevant nodes. Semantic search powered by local embeddings. Ships inside Luna Notion Graph above.</p>
+          <img src="screenshots/luna-graph-search.png" alt="Luna Graph AI Search" class="rounded mb-3 w-full" loading="lazy" />
+          <div class="text-center text-luna-accent text-sm font-semibold">Included free with Luna Notion Graph →</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Bundle Pricing -->
+    <section id="pricing" class="max-w-4xl mx-auto px-6 py-16">
+      <div class="card p-8 border-luna-pink text-center">
+        <div class="text-luna-pink font-extrabold text-sm tracking-wide mb-2">BUNDLE DEAL</div>
+        <h2 class="text-3xl font-extrabold mb-4">Get all 5 extensions for <span class="gradient-text">$5</span></h2>
+        <p class="text-luna-mute mb-6">Notion Graph + Library + Clipper + PDF + Convert · $5 one-time, lifetime access</p>
+        <button id="luna-bundle-buy" class="gradient text-white font-bold px-10 py-4 rounded-xl text-lg hover:opacity-90">Buy all 5 — $5</button>
+        <p class="text-xs text-luna-mute mt-4">Or pick individual extensions above at $1 each. 30-day money-back guarantee.</p>
+      </div>
+
+      <div class="mt-8 text-center text-luna-mute text-sm">
+        Also available: <strong class="text-white">bundle with Luna WordPress plugins</strong> at checkout — save even more when you buy together.
+        <br><a href="/" class="text-luna-accent hover:underline">See Luna WordPress Plugins →</a>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="max-w-3xl mx-auto px-6 py-16">
+      <h2 class="text-3xl font-extrabold text-center mb-8">How it works</h2>
+      <ol class="space-y-4 text-luna-mute">
+        <li class="card p-4"><strong class="text-white">1. Buy.</strong> Stripe checkout on this page — card details stay in your browser.</li>
+        <li class="card p-4"><strong class="text-white">2. Download.</strong> Email arrives instantly with your extension zip files.</li>
+        <li class="card p-4"><strong class="text-white">3. Install.</strong> Chrome → Extensions → Developer mode ON → Load unpacked → pick folder.</li>
+        <li class="card p-4"><strong class="text-white">4. Use.</strong> Click the extension icon to run. All AI runs in your browser — nothing uploads.</li>
+      </ol>
+    </section>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-6 py-10 border-t border-luna-panel text-center text-luna-mute text-sm">
+      <p><a href="/" class="hover:text-white">Luna Suite</a> · <a href="/" class="hover:text-white">WordPress Plugins</a> · <a href="mailto:thecodebe@gmail.com" class="hover:text-white">Support</a></p>
+    </footer>
+
+    <!-- Checkout modal (reused pattern from main page) -->
+    <script>
+      const STRIPE_PUBLISHABLE_KEY = 'pk_test_51S7v785Feb49EFCT8M4OhR1iUKF3h1IaUYo4JGmntL5NOXIRKKphhWyxRQR8NKxDJLhvbdt4T6m8ssnuip8iUapw00McrQZ21V';
+      const WORKER_URL = 'https://luna-commerce.thecodebe.workers.dev';
+      const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+      let elements = null;
+
+      function buildModal() {
+        const modal = document.createElement('div');
+        modal.id = 'luna-checkout-modal';
+        modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;';
+        modal.innerHTML = `
+          <div style="background:#11142a;border:1px solid #1f2340;border-radius:16px;max-width:500px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto;">
+            <button id="luna-close-modal" style="position:absolute;top:12px;right:12px;background:none;border:none;color:#8a93b8;font-size:24px;cursor:pointer;">×</button>
+            <h2 id="luna-checkout-title" style="font-size:24px;font-weight:800;margin:0 0 8px;">Purchase</h2>
+            <p id="luna-checkout-amount" style="color:#f0abfc;margin:0 0 20px;font-size:20px;font-weight:800;"></p>
+            <input id="luna-email" type="email" placeholder="Your email (for delivery)" required style="background:#0b0d17;border:1px solid #1f2340;color:#e5e7eb;padding:10px 12px;border-radius:8px;width:100%;margin-bottom:12px;font-size:14px;" />
+            <div id="luna-step-continue">
+              <button id="luna-continue-btn" style="background:linear-gradient(135deg,#a78bfa,#f0abfc);width:100%;padding:12px;border-radius:8px;color:white;font-weight:bold;border:none;cursor:pointer;font-size:15px;">Continue to payment →</button>
+            </div>
+            <div id="luna-step-pay" style="display:none;">
+              <form id="luna-payment-form">
+                <div id="luna-payment-element" style="margin:12px 0 20px;"></div>
+                <button id="luna-submit-btn" type="submit" style="background:linear-gradient(135deg,#a78bfa,#f0abfc);width:100%;padding:12px;border-radius:8px;color:white;font-weight:bold;border:none;cursor:pointer;font-size:15px;">Pay</button>
+                <div id="luna-payment-status" style="margin-top:12px;font-size:13px;"></div>
+              </form>
+            </div>
+            <p style="font-size:11px;color:#8a93b8;margin-top:16px;">Secure Stripe checkout · 30-day money-back · Download link emailed after payment</p>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('luna-close-modal').addEventListener('click', () => { modal.style.display = 'none'; });
+      }
+      buildModal();
+
+      // Use tier=starter with addOns — create a "chrome only" purchase flow.
+      // For single $1 addons, we piggyback on the starter $39... won't work.
+      // Instead: use the bundle addon pattern but with just chrome items.
+      // Simplest: charge through Starter bundle at $1 each — requires a minimum.
+      // Stripe minimum is $0.50, so $1 works. We create a special "chrome-only" tier.
+      async function openChrome(addOnKeys, title, amount) {
+        document.getElementById('luna-checkout-title').textContent = title;
+        document.getElementById('luna-checkout-amount').textContent = '$' + (amount / 100).toFixed(2);
+        document.getElementById('luna-step-continue').style.display = 'block';
+        document.getElementById('luna-step-pay').style.display = 'none';
+        document.getElementById('luna-checkout-modal').style.display = 'flex';
+        document.getElementById('luna-continue-btn').dataset.addons = addOnKeys.join(',');
+        document.getElementById('luna-continue-btn').dataset.amount = amount;
+      }
+
+      document.querySelectorAll('.luna-single-buy').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const addon = btn.getAttribute('data-addon');
+          openChrome([addon], btn.textContent.trim(), 100);
+        });
+      });
+
+      document.getElementById('luna-bundle-buy').addEventListener('click', () => {
+        openChrome(['luna-graph', 'luna-bookmarks', 'luna-clipper', 'luna-pdf', 'luna-convert'], 'Luna Chrome Bundle — all 5', 500);
+      });
+
+      document.getElementById('luna-continue-btn').addEventListener('click', async (e) => {
+        const email = document.getElementById('luna-email').value;
+        if (!email || !email.includes('@')) { alert('Enter a valid email'); return; }
+        e.target.disabled = true;
+        e.target.textContent = 'Loading payment form…';
+        const addOns = e.target.dataset.addons.split(',').filter(Boolean);
+        const res = await fetch(WORKER_URL + '/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tier: 'starter', founding: false, addOns, chromeOnly: true }),
+        });
+        const data = await res.json();
+        if (!res.ok) { alert('Error: ' + (data.error || 'checkout failed')); e.target.disabled = false; e.target.textContent = 'Continue to payment →'; return; }
+        document.getElementById('luna-step-continue').style.display = 'none';
+        document.getElementById('luna-step-pay').style.display = 'block';
+        elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'night', variables: { colorPrimary: '#a78bfa', colorBackground: '#0b0d17', colorText: '#e5e7eb', borderRadius: '8px' } } });
+        document.getElementById('luna-payment-element').innerHTML = '';
+        const pe = elements.create('payment');
+        pe.mount('#luna-payment-element');
+        e.target.disabled = false;
+        e.target.textContent = 'Continue to payment →';
+      });
+
+      document.getElementById('luna-payment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('luna-email').value;
+        document.getElementById('luna-submit-btn').disabled = true;
+        document.getElementById('luna-submit-btn').textContent = 'Processing…';
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: { receipt_email: email, return_url: 'https://lunasuite.app/extensions.html?paid=1' },
+        });
+        if (error) {
+          document.getElementById('luna-payment-status').innerHTML = '<span style="color:#f87171;">' + error.message + '</span>';
+          document.getElementById('luna-submit-btn').disabled = false;
+          document.getElementById('luna-submit-btn').textContent = 'Pay';
+        }
+      });
+    </script>
+  </body>
+</html>
