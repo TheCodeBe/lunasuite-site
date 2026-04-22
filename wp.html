@@ -392,23 +392,32 @@
           <p id="luna-checkout-amount" style="color:#8a93b8;margin:0 0 16px;font-size:14px;"></p>
 
           <div id="luna-addons" style="background:#0b0d17;padding:14px;border-radius:8px;border:1px solid #1f2340;margin-bottom:16px;">
-            <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:#f0abfc;">⚡ Add to your order — $1 each (Chrome extensions):</div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:#f0abfc;">⚡ Add Chrome extensions — $1 each:</div>
+            <!-- Top 3 shown by default -->
             <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
               <input type="checkbox" class="luna-addon-check" data-addon="luna-graph" style="accent-color:#a78bfa;" />
-              <span><strong>Luna Graph</strong> — Visual graph of your bookmarks & notes</span>
+              <span><strong>Luna Notion Graph</strong> — Visualize your Notion pages & links</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
+              <input type="checkbox" class="luna-addon-check" data-addon="luna-bookmarks" style="accent-color:#a78bfa;" />
+              <span><strong>Luna Library</strong> — AI-organized bookmark manager</span>
             </label>
             <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
               <input type="checkbox" class="luna-addon-check" data-addon="luna-clipper" style="accent-color:#a78bfa;" />
-              <span><strong>Luna Clipper</strong> — Smart web page clipper</span>
+              <span><strong>Luna Notion/Sheets Clipper</strong> — Clip pages to Notion or Sheets</span>
             </label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
-              <input type="checkbox" class="luna-addon-check" data-addon="luna-pdf" style="accent-color:#a78bfa;" />
-              <span><strong>Luna PDF</strong> — Offline PDF merge/split/OCR</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
-              <input type="checkbox" class="luna-addon-check" data-addon="luna-convert" style="accent-color:#a78bfa;" />
-              <span><strong>Luna Convert</strong> — Image convert + dedup, offline</span>
-            </label>
+            <!-- Progressive reveal: hidden by default -->
+            <div id="luna-addons-more" style="display:none;">
+              <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
+                <input type="checkbox" class="luna-addon-check" data-addon="luna-pdf" style="accent-color:#a78bfa;" />
+                <span><strong>Luna PDF</strong> — Offline PDF merge, split, OCR</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#e5e7eb;">
+                <input type="checkbox" class="luna-addon-check" data-addon="luna-convert" style="accent-color:#a78bfa;" />
+                <span><strong>Luna Convert</strong> — Offline image convert + dedup</span>
+              </label>
+            </div>
+            <button type="button" id="luna-addons-toggle" style="background:none;border:none;color:#a78bfa;cursor:pointer;font-size:12px;padding:4px 0;margin-top:4px;text-decoration:underline;">+ 2 more add-ons</button>
           </div>
 
           <input id="luna-email" type="email" placeholder="Your email (for delivery)" required style="background:#0b0d17;border:1px solid #1f2340;color:#e5e7eb;padding:10px 12px;border-radius:8px;width:100%;margin-bottom:12px;font-size:14px;" />
@@ -449,6 +458,19 @@
 
       document.querySelectorAll('.luna-addon-check').forEach((c) => {
         c.addEventListener('change', updatePreviewTotal);
+      });
+
+      // Progressive reveal for extra add-ons
+      el('luna-addons-toggle').addEventListener('click', () => {
+        const more = el('luna-addons-more');
+        const toggle = el('luna-addons-toggle');
+        if (more.style.display === 'none') {
+          more.style.display = 'block';
+          toggle.textContent = '− show fewer';
+        } else {
+          more.style.display = 'none';
+          toggle.textContent = '+ 2 more add-ons';
+        }
       });
 
       async function openCheckout(tier, displayName) {
@@ -535,11 +557,16 @@
         el('luna-submit-btn').textContent = 'Processing…';
         el('luna-payment-status').innerHTML = '';
 
+        // Stripe requires an absolute http(s) return URL — must not be a file:// URL
+        // If opening the page locally, fall back to the public site URL.
+        const baseHref = window.location.protocol.startsWith('http')
+          ? window.location.origin + window.location.pathname
+          : 'https://thecodebe.github.io/lunasuite-site/wp.html';
         const { error } = await stripe.confirmPayment({
           elements,
           confirmParams: {
             receipt_email: email,
-            return_url: window.location.href + '#paid',
+            return_url: baseHref + '#paid',
           },
         });
         if (error) {
