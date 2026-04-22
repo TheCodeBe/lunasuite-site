@@ -557,18 +557,16 @@
         el('luna-submit-btn').textContent = 'Processing…';
         el('luna-payment-status').innerHTML = '';
 
-        // Stripe requires an absolute http(s) return URL — must not be a file:// URL
-        // If opening the page locally, fall back to the public site URL.
-        const baseHref = window.location.protocol.startsWith('http')
-          ? window.location.origin + window.location.pathname
-          : 'https://thecodebe.github.io/lunasuite-site/wp.html';
+        // Stripe requires an absolute http(s) URL — always use the live GitHub Pages URL
+        // so this works regardless of how the page was opened (file://, local preview, etc.)
         const { error } = await stripe.confirmPayment({
           elements,
           confirmParams: {
             receipt_email: email,
-            return_url: baseHref + '#paid',
+            return_url: 'https://thecodebe.github.io/lunasuite-site/wp.html?paid=1',
           },
         });
+        console.log('[luna] confirmPayment result:', { error });
         if (error) {
           el('luna-payment-status').innerHTML = '<span style="color:#f87171;">' + error.message + '</span>';
           el('luna-submit-btn').disabled = false;
