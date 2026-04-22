@@ -19,6 +19,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -177,7 +178,7 @@
             <li>✓ Lifetime updates for these 5</li>
             <li>✓ 1 WordPress site</li>
           </ul>
-          <a href="GUMROAD_STARTER_URL" class="block text-center border border-luna-accent text-luna-accent font-semibold py-3 rounded-lg hover:bg-luna-panel">Buy Starter</a>
+          <button data-tier="starter" data-price-id="price_1TOs0e5Feb49EFCTsggOWTl5" data-amount="3900" class="luna-buy-btn block w-full text-center border border-luna-accent text-luna-accent font-semibold py-3 rounded-lg hover:bg-luna-panel">Buy Starter</button>
         </div>
 
         <!-- Pro -->
@@ -193,7 +194,7 @@
             <li>✓ Lifetime updates</li>
             <li>✓ 3 WordPress sites</li>
           </ul>
-          <a href="GUMROAD_PRO_URL" class="block text-center gradient text-white font-semibold py-3 rounded-lg hover:opacity-90">Buy Pro</a>
+          <button data-tier="pro" data-price-id="price_1TOs0f5Feb49EFCTqh5t0FVF" data-amount="9900" class="luna-buy-btn block w-full text-center gradient text-white font-semibold py-3 rounded-lg hover:opacity-90">Buy Pro</button>
         </div>
 
         <!-- Lifetime -->
@@ -209,7 +210,7 @@
             <li>✓ 5 WordPress sites</li>
             <li>✓ Priority support</li>
           </ul>
-          <a href="GUMROAD_LIFETIME_URL" class="block text-center gradient text-white font-semibold py-3 rounded-lg hover:opacity-90">Buy Lifetime</a>
+          <button data-tier="lifetime" data-price-id="price_1TOs0f5Feb49EFCT3ZPqghav" data-amount="39900" class="luna-buy-btn block w-full text-center gradient text-white font-semibold py-3 rounded-lg hover:opacity-90">Buy Lifetime</button>
         </div>
 
         <!-- Agency -->
@@ -224,7 +225,7 @@
             <li>✓ Priority support (same-day)</li>
             <li>✓ Early access to new pipelines</li>
           </ul>
-          <a href="GUMROAD_AGENCY_URL" class="block text-center border border-luna-accent text-luna-accent font-semibold py-3 rounded-lg hover:bg-luna-panel">Buy Agency</a>
+          <button data-tier="agency" data-price-id="price_1TOs0g5Feb49EFCTWtbugSnP" data-amount="79900" class="luna-buy-btn block w-full text-center border border-luna-accent text-luna-accent font-semibold py-3 rounded-lg hover:bg-luna-panel">Buy Agency</button>
         </div>
       </div>
     </section>
@@ -356,6 +357,141 @@
       ['in-posts','in-products','in-images','in-audio','in-gen-images']
         .forEach(id => el(id).addEventListener('input', recalc));
       recalc();
+
+      // =====================================================================
+      // Stripe checkout integration
+      // =====================================================================
+      const STRIPE_PUBLISHABLE_KEY = 'pk_test_51S7v785Feb49EFCT8M4OhR1iUKF3h1IaUYo4JGmntL5NOXIRKKphhWyxRQR8NKxDJLhvbdt4T6m8ssnuip8iUapw00McrQZ21V';
+      const WORKER_URL = 'https://luna-commerce.thecodebe.workers.dev';
+      const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+      // Fetch founding slot counts and show them on each card
+      fetch(WORKER_URL + '/founding-slots')
+        .then(r => r.json())
+        .then(slots => {
+          for (const [tier, remaining] of Object.entries(slots)) {
+            const card = document.querySelector('[data-tier="' + tier + '"]')?.closest('.card');
+            if (card && remaining > 0) {
+              const banner = document.createElement('div');
+              banner.className = 'text-xs text-luna-pink font-bold mb-2';
+              banner.textContent = '🌙 ' + remaining + '/100 Founding slots at 50% off';
+              card.insertBefore(banner, card.firstChild);
+            }
+          }
+        })
+        .catch(() => { /* non-critical */ });
+
+      // Checkout modal
+      const modal = document.createElement('div');
+      modal.id = 'luna-checkout-modal';
+      modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;';
+      modal.innerHTML = `
+        <div style="background:#11142a;border:1px solid #1f2340;border-radius:16px;max-width:500px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto;">
+          <button id="luna-close-modal" style="position:absolute;top:12px;right:12px;background:none;border:none;color:#8a93b8;font-size:24px;cursor:pointer;">×</button>
+          <h2 id="luna-checkout-title" style="font-size:24px;font-weight:800;margin:0 0 8px;">Purchase</h2>
+          <p id="luna-checkout-amount" style="color:#8a93b8;margin:0 0 20px;font-size:14px;"></p>
+          <form id="luna-payment-form">
+            <input id="luna-email" type="email" placeholder="Your email (for delivery)" required style="background:#0b0d17;border:1px solid #1f2340;color:#e5e7eb;padding:10px 12px;border-radius:8px;width:100%;margin-bottom:12px;font-size:14px;" />
+            <div id="luna-payment-element" style="margin-bottom:20px;"></div>
+            <button id="luna-submit-btn" type="submit" class="gradient" style="width:100%;padding:12px;border-radius:8px;color:white;font-weight:bold;border:none;cursor:pointer;font-size:15px;">Pay</button>
+            <div id="luna-payment-status" style="margin-top:12px;font-size:13px;"></div>
+          </form>
+          <p style="font-size:11px;color:#8a93b8;margin-top:16px;">Secure payment by Stripe · 30-day money-back · Download link emailed after payment</p>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      let elements = null;
+      let paymentIntentClientSecret = null;
+
+      async function openCheckout(tier, displayName) {
+        el('luna-checkout-title').textContent = displayName;
+        el('luna-payment-status').textContent = '';
+        el('luna-payment-element').innerHTML = '<div style="text-align:center;color:#8a93b8;padding:20px;">Loading payment form…</div>';
+        modal.style.display = 'flex';
+
+        // Check founding slot first
+        const slotsRes = await fetch(WORKER_URL + '/founding-slots');
+        const slots = await slotsRes.json();
+        const foundingAvailable = slots[tier] > 0;
+
+        const res = await fetch(WORKER_URL + '/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tier, founding: foundingAvailable }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          el('luna-payment-element').innerHTML = '<div style="color:#f87171;">Error: ' + (data.error || 'could not start checkout') + '</div>';
+          return;
+        }
+        paymentIntentClientSecret = data.clientSecret;
+        const priceTag = data.couponApplied
+          ? '<span style="color:#f0abfc;">Founding price: $' + (data.amount / 100).toFixed(2) + '</span> (50% off, ' + data.foundingRemaining + ' slots left)'
+          : '$' + (data.amount / 100).toFixed(2);
+        el('luna-checkout-amount').innerHTML = priceTag;
+
+        elements = stripe.elements({ clientSecret: data.clientSecret, appearance: {
+          theme: 'night',
+          variables: {
+            colorPrimary: '#a78bfa',
+            colorBackground: '#0b0d17',
+            colorText: '#e5e7eb',
+            borderRadius: '8px',
+          },
+        }});
+        el('luna-payment-element').innerHTML = '';
+        const pe = elements.create('payment');
+        pe.mount('#luna-payment-element');
+      }
+
+      el('luna-close-modal').addEventListener('click', () => { modal.style.display = 'none'; });
+
+      document.querySelectorAll('.luna-buy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tier = btn.getAttribute('data-tier');
+          const name = btn.textContent.trim();
+          openCheckout(tier, name);
+        });
+      });
+
+      el('luna-payment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = el('luna-email').value;
+        if (!email || !email.includes('@')) { el('luna-payment-status').innerHTML = '<span style="color:#f87171;">Enter a valid email.</span>'; return; }
+        if (!elements) return;
+        el('luna-submit-btn').disabled = true;
+        el('luna-submit-btn').textContent = 'Processing…';
+        el('luna-payment-status').innerHTML = '';
+
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            receipt_email: email,
+            return_url: window.location.href + '#paid',
+          },
+        });
+        if (error) {
+          el('luna-payment-status').innerHTML = '<span style="color:#f87171;">' + error.message + '</span>';
+          el('luna-submit-btn').disabled = false;
+          el('luna-submit-btn').textContent = 'Pay';
+        }
+      });
+
+      // Handle successful return
+      if (window.location.hash === '#paid') {
+        const successModal = document.createElement('div');
+        successModal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+        successModal.innerHTML = `
+          <div style="background:#11142a;border:1px solid #4ade80;border-radius:16px;max-width:500px;width:100%;padding:32px;text-align:center;">
+            <h2 style="font-size:28px;color:#4ade80;margin:0 0 12px;">✅ Thank you!</h2>
+            <p style="color:#8a93b8;line-height:1.6;">Your purchase is being processed. Check your email in the next few minutes for your download link.</p>
+            <p style="color:#8a93b8;font-size:12px;margin-top:16px;">If you don't see it, check spam. Support: thecodebe@gmail.com</p>
+            <button onclick="this.parentElement.parentElement.remove();window.location.hash='';" style="margin-top:20px;padding:10px 24px;background:linear-gradient(135deg,#a78bfa,#f0abfc);color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">Close</button>
+          </div>
+        `;
+        document.body.appendChild(successModal);
+      }
     </script>
   </body>
 </html>
