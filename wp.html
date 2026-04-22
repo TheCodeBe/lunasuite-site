@@ -64,17 +64,17 @@
     <!-- Hero -->
     <section class="max-w-6xl mx-auto px-6 py-20 text-center">
       <div class="inline-block px-4 py-1.5 rounded-full bg-luna-panel border border-luna-accent/40 text-sm text-luna-accent mb-6">
-        72 plugins shipped · 27 more on the way
+        73 plugins shipped · Voice + Diffusion coming
       </div>
       <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-        <span class="gradient-text">72 WordPress plugins.</span><br>
+        <span class="gradient-text">73 WordPress plugins.</span><br>
         Local AI. <span class="gradient-text">$0 API fees. Forever.</span>
       </h1>
       <p class="text-xl text-luna-mute max-w-3xl mx-auto mb-10">
         Every plugin runs Llama 3.2 or Florence-2 <em>inside your browser</em>.
         No OpenAI key. No monthly subscription. Your content never leaves your server.
         <br class="hidden md:block">
-        Replace Yoast AI, Jasper, Otter, DALL-E, and more. Pay once. Own it forever.
+        Replace Yoast AI, Jasper, Alt Text AI, and more. Pay once. Own it forever.
       </p>
       <div class="flex flex-wrap gap-4 justify-center mb-8">
         <a href="#pricing" class="gradient text-white font-semibold px-8 py-4 rounded-xl text-lg hover:opacity-90">See Pricing</a>
@@ -110,14 +110,9 @@
             <label class="block mb-1 text-sm text-luna-mute">Images needing alt text / captions</label>
             <input id="in-images" type="number" value="150" min="0">
           </div>
-          <div>
-            <label class="block mb-1 text-sm text-luna-mute">Audio hours to transcribe</label>
-            <input id="in-audio" type="number" value="5" min="0">
-          </div>
-          <div>
-            <label class="block mb-1 text-sm text-luna-mute">AI-generated images (DALL-E etc.)</label>
-            <input id="in-gen-images" type="number" value="20" min="0">
-          </div>
+          <p class="text-xs text-luna-mute mt-3 pt-3 border-t border-luna-panel">
+            🔊 Voice transcription + 🎨 image generation coming soon — included free in Lifetime when they ship.
+          </p>
         </div>
 
         <!-- Output -->
@@ -127,8 +122,6 @@
             <div class="flex justify-between border-b border-luna-panel py-2"><span class="text-luna-mute">Yoast Premium + OpenAI overage</span><span id="c-yoast" class="font-mono">$0</span></div>
             <div class="flex justify-between border-b border-luna-panel py-2"><span class="text-luna-mute">Jasper / Copy.ai subscription</span><span id="c-jasper" class="font-mono">$0</span></div>
             <div class="flex justify-between border-b border-luna-panel py-2"><span class="text-luna-mute">Alt Text AI + image captions</span><span id="c-alttext" class="font-mono">$0</span></div>
-            <div class="flex justify-between border-b border-luna-panel py-2"><span class="text-luna-mute">Otter.ai / transcription</span><span id="c-otter" class="font-mono">$0</span></div>
-            <div class="flex justify-between border-b border-luna-panel py-2"><span class="text-luna-mute">DALL-E / Midjourney</span><span id="c-dalle" class="font-mono">$0</span></div>
           </div>
 
           <div class="mt-6 p-4 bg-luna-bg rounded-lg border border-luna-red/40">
@@ -281,7 +274,7 @@
             <tr class="border-b border-luna-panel"><td class="p-4 font-semibold text-white">Cost Year 2+</td><td class="p-4 text-luna-green font-bold">$0</td><td class="p-4">$339</td><td class="p-4">$468-1,188</td><td class="p-4">$1,500+</td></tr>
             <tr class="border-b border-luna-panel"><td class="p-4 font-semibold text-white">API keys required</td><td class="p-4 text-luna-green">No</td><td class="p-4 text-luna-red">Yes (OpenAI)</td><td class="p-4 text-luna-red">Yes</td><td class="p-4 text-luna-red">Yes</td></tr>
             <tr class="border-b border-luna-panel"><td class="p-4 font-semibold text-white">Data leaves server</td><td class="p-4 text-luna-green">Never</td><td class="p-4 text-luna-red">Yes</td><td class="p-4 text-luna-red">Yes</td><td class="p-4 text-luna-red">Yes</td></tr>
-            <tr class="border-b border-luna-panel"><td class="p-4 font-semibold text-white">Plugin count</td><td class="p-4 text-luna-green font-bold">72 (99 soon)</td><td class="p-4">1</td><td class="p-4">1</td><td class="p-4">6-10</td></tr>
+            <tr class="border-b border-luna-panel"><td class="p-4 font-semibold text-white">Plugin count</td><td class="p-4 text-luna-green font-bold">73 (99+ soon)</td><td class="p-4">1</td><td class="p-4">1</td><td class="p-4">6-10</td></tr>
             <tr><td class="p-4 font-semibold text-white">Vision / image AI</td><td class="p-4 text-luna-green">Included</td><td class="p-4 text-luna-red">No</td><td class="p-4 text-luna-red">No</td><td class="p-4">Separate tool</td></tr>
           </tbody>
         </table>
@@ -343,35 +336,26 @@
         const posts = +el('in-posts').value || 0;
         const products = +el('in-products').value || 0;
         const images = +el('in-images').value || 0;
-        const audio = +el('in-audio').value || 0;
-        const genImages = +el('in-gen-images').value || 0;
 
-        // Monthly cloud costs (averaged across tools users commonly stack)
+        // Only count categories that Luna currently ships (text + vision).
+        // Voice/diffusion savings will be added once those pipelines ship.
         // Yoast AI Premium: ~$99/yr fixed + OpenAI usage ~$0.10/post
         const yoastMonthly = (99 / 12) + posts * 0.10;
-        // Jasper: flat $49/mo for mid tier if posts > 10, otherwise skip
+        // Jasper / Copy.ai: flat $49/mo mid tier (applies if meaningful post volume)
         const jasperMonthly = posts >= 10 ? 49 : 0;
-        // Alt Text AI: $15/mo fixed for bulk image plans
+        // Alt Text AI + captions: ~$15/mo bulk plan (applies once images > 0)
         const altMonthly = images > 0 ? 15 : 0;
-        // Otter.ai equivalent: $17/mo pro, scales with hours above 20
-        const otterMonthly = audio > 0 ? 17 + Math.max(0, (audio - 20) * 0.02 * 60) : 0;
-        // DALL-E 3: $0.08/image generated
-        const dalleMonthly = genImages * 0.08 + (genImages > 0 ? 10 : 0);
 
         const yoastAnnual = yoastMonthly * 12;
         const jasperAnnual = jasperMonthly * 12;
         const altAnnual = altMonthly * 12;
-        const otterAnnual = otterMonthly * 12;
-        const dalleAnnual = dalleMonthly * 12;
 
-        const totalAnnual = yoastAnnual + jasperAnnual + altAnnual + otterAnnual + dalleAnnual;
+        const totalAnnual = yoastAnnual + jasperAnnual + altAnnual;
         const fiveYear = totalAnnual * 5;
 
         el('c-yoast').textContent = fmt(yoastAnnual) + '/yr';
         el('c-jasper').textContent = jasperAnnual ? fmt(jasperAnnual) + '/yr' : '—';
         el('c-alttext').textContent = altAnnual ? fmt(altAnnual) + '/yr' : '—';
-        el('c-otter').textContent = otterAnnual ? fmt(otterAnnual) + '/yr' : '—';
-        el('c-dalle').textContent = dalleAnnual ? fmt(dalleAnnual) + '/yr' : '—';
         el('c-total').textContent = fmt(totalAnnual) + '/yr';
 
         if (totalAnnual > 0) {
@@ -386,7 +370,7 @@
         el('c-savings').textContent = fmt(Math.max(0, fiveYear - 399));
       }
 
-      ['in-posts','in-products','in-images','in-audio','in-gen-images']
+      ['in-posts','in-products','in-images']
         .forEach(id => el(id).addEventListener('input', recalc));
       recalc();
 
